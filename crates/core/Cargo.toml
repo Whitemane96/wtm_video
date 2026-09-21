@@ -1,0 +1,15 @@
+[package]
+name = "wtm_core"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+anyhow.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+which.workspace = true
+dirs.workspace = true
+ureq.workspace = true
+
+[target.'cfg(unix)'.dependencies]
+libc = "0.2"

@@ -1,0 +1,24 @@
+WTM Video for Windows
+=====================
+
+1. Right-click the zip file and choose "Extract All", then open the folder.
+   (Please extract it first. Running the program from inside the zip won't work.)
+2. Double-click "WTM Video.exe".
+3. The first time, Windows will probably show a blue "Windows protected your
+   PC" window. That is normal for apps that don't come from a big company or
+   the Microsoft Store, and it's safe to continue:
+
+   - Click "More info".
+   - Click "Run anyway".
+
+   You only have to do this once.
+
+4. The first time it starts, WTM Video downloads a couple of helper programs.
+   It needs an internet connection and takes a minute. After that it opens
+   straight away.
+
+You can move the folder anywhere you like. To remove the app, just delete it.
+The helper programs are stored in  %LOCALAPPDATA%\wtm_video  if you want to
+clear those too.
+
+Please only download things you have the right to download.

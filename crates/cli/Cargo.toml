@@ -1,0 +1,15 @@
+[package]
+name = "wtm_cli"
+version.workspace = true
+edition.workspace = true
+
+[[bin]]
+name = "wtm-video"
+path = "src/main.rs"
+
+[dependencies]
+wtm_core.workspace = true
+anyhow.workspace = true
+clap = { version = "4", features = ["derive"] }
+indicatif = "0.18"
+ctrlc = "3"

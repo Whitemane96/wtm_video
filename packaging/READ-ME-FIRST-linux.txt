@@ -1,0 +1,28 @@
+WTM Video for Linux
+===================
+
+Easiest way:
+
+    ./install.sh
+
+That puts WTM Video in your application menu (it installs into ~/.local and
+needs no administrator password). To remove it later: ./install.sh --uninstall
+
+Or just run it from here without installing:
+
+    ./wtm-video-gui
+
+The first time it starts, WTM Video downloads a couple of helper programs (yt-dlp
+and ffmpeg). It needs an internet connection and takes a minute. If that step
+fails with a message about unpacking, install the "xz-utils" package
+(for example: sudo apt install xz-utils) and press Try again.
+
+Good to know:
+- Needs a normal desktop with Wayland or X11. On a very minimal system you may
+  need to install the "xkbcommon" and OpenGL (Mesa) libraries.
+- Japanese, Chinese and Korean titles need a font, e.g.:
+  sudo apt install fonts-noto-cjk
+- The "Change..." folder button uses your desktop's file chooser
+  (xdg-desktop-portal), which GNOME, KDE and most desktops already include.
+
+Please only download things you have the right to download.

@@ -1,0 +1,28 @@
+WTM Video for Mac
+=================
+
+1. Drag "WTM Video" into your Applications folder.
+2. Open it. The first time, your Mac will probably say it can't check the app
+   for malicious software. That is normal for apps that don't come from the
+   App Store, and it's safe to continue:
+
+   - Click "Done" (not "Move to Trash").
+   - Open  System Settings  >  Privacy & Security.
+   - Scroll down to the message about "WTM Video" and click "Open Anyway".
+   - Enter your password, then click "Open".
+
+   You only have to do this once.
+
+   (On older versions of macOS you can instead right-click the app and choose
+   Open, then click Open again.)
+
+3. The first time it starts, WTM Video downloads a couple of helper programs.
+   It needs an internet connection and takes a minute. After that it opens
+   straight away.
+
+Please only download things you have the right to download.
+
+If the steps above don't work, open the Terminal app and paste this line, then
+try opening the app again:
+
+    xattr -dr com.apple.quarantine "/Applications/WTM Video.app"

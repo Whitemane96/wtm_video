@@ -1,0 +1,97 @@
+# Builds the downloadable packages for every platform and attaches them to a
+# GitHub release. Start it by pushing a version tag:
+#
+#   git tag v0.1.0
+#   git push origin v0.1.0
+
+name: Release
+
+on:
+  push:
+    tags: ["v*"]
+
+permissions:
+  contents: write
+
+jobs:
+  macos:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: ./scripts/package-macos.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: macos
+          path: dist/*.zip
+          if-no-files-found: error
+
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: cargo build --release -p wtm_gui -p wtm_cli
+      - name: Package
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Force dist/windows, dist/cli-windows | Out-Null
+          Copy-Item target/release/wtm-video-gui.exe "dist/windows/WTM Video.exe"
+          Copy-Item packaging/READ-ME-FIRST-windows.txt "dist/windows/READ ME FIRST.txt"
+          Copy-Item target/release/wtm-video.exe dist/cli-windows/wtm-video.exe
+          Compress-Archive -Path "dist/windows/*" -DestinationPath dist/WTM-Video-Windows.zip
+          Compress-Archive -Path "dist/cli-windows/*" -DestinationPath dist/wtm-video-cli-Windows.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: dist/*.zip
+          if-no-files-found: error
+
+  linux:
+    # An older Ubuntu on purpose: programs built here also run on older distributions.
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Linux build libraries
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y pkg-config libxkbcommon-dev libwayland-dev libx11-dev \
+            libxcursor-dev libxrandr-dev libxi-dev libgl1-mesa-dev \
+            libxcb-render0-dev libxcb-shape0-dev libxcb-xfixes0-dev
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - run: ./scripts/package-linux.sh
+      - uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: dist/*.tar.gz
+          if-no-files-found: error
+
+  publish:
+    needs: [macos, windows, linux]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+      - uses: softprops/action-gh-release@v2
+        with:
+          files: dist/*
+          generate_release_notes: true
+          body: |
+            ## Which file do I download?
+
+            | You use | Download |
+            |---|---|
+            | Mac (Apple Silicon or Intel) | `WTM-Video-macOS.zip` |
+            | Windows | `WTM-Video-Windows.zip` |
+            | Linux | `WTM-Video-linux-x86_64.tar.gz` |
+
+            Unzip it and open the app. Each download includes a **READ ME FIRST** note
+            explaining the one-time "unknown developer" warning your computer shows.
+            The first launch downloads a couple of helper programs, so it needs internet.
+
+            Files named `wtm-video-cli-…` are the command-line version, for people who prefer a terminal.
