@@ -1,4 +1,4 @@
-# WTM Video Downloaded
+# WTM Video Downloader
 
 A video downloader for YouTube and other sites, with both a CLI and a GUI. Written in Rust, for macOS, Windows and Linux.
 
@@ -168,26 +168,6 @@ Platform-specific handling lives in `crates/core`:
 - **Finding programs:** covers the case where a Finder-launched Mac app doesn't inherit the shell `PATH`.
 - **Windows console windows:** they're hidden when the app starts yt-dlp or ffmpeg.
 - **Cancelling:** it ends the whole process tree (`taskkill /T` on Windows, a process group on macOS and Linux), because the standalone yt-dlp starts a second process. Ctrl+C in the CLI does the same.
-
-## Development
-
-```sh
-cargo test --workspace
-cargo clippy --workspace --all-targets -- -D warnings
-```
-
-GitHub Actions (`.github/workflows/ci.yml`) runs clippy, tests and a release build on macOS, Windows and Linux for every push, and uploads the built programs as artifacts.
-
-### Making a release
-
-Pushing a version tag builds the downloads for every platform and attaches them to a GitHub release:
-
-```sh
-git tag v0.1.0
-git push origin v0.1.0
-```
-
-`.github/workflows/release.yml` does the work (macOS as one universal app for Apple Silicon and Intel, a Windows zip, and a Linux archive). You can also build a package on your own machine with `./scripts/package-macos.sh` or `./scripts/package-linux.sh`; the results land in `dist/`.
 
 ## Linux notes
 
